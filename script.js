@@ -8,7 +8,7 @@ document.getElementById('predictForm').addEventListener('submit', async function
     let health = document.getElementById('health').value;
     let smoke = document.getElementById('smoke').value;
 
-    let response = await fetch('http://127.0.0.1:5000/predict', {
+    let response = await fetch('https://YOUR_RENDER_URL/predict', {  
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ age, gender, income, health, smoke })
@@ -18,7 +18,10 @@ document.getElementById('predictForm').addEventListener('submit', async function
 
     let resultDiv = document.getElementById('result');
     resultDiv.classList.remove('d-none');
+
     resultDiv.innerHTML = `<strong>${data.message}</strong>`;
+    resultDiv.classList.remove('alert-success', 'alert-danger');
+
     resultDiv.classList.add(data.eligible ? 'alert-success' : 'alert-danger');
     resultDiv.classList.add('animate__animated', 'animate__fadeIn');
 
@@ -28,10 +31,14 @@ document.getElementById('predictForm').addEventListener('submit', async function
 
     if (data.eligible) {
         policiesDiv.innerHTML = `<strong>Eligible Policies:</strong> ${data.policies.join(", ")}`;
+
         let premiumText = "<strong>Estimated Premiums:</strong><br>";
+
         for (let policy in data.premiums) {
-            premiumText += `${policy}: ₹${data.premiums[policy].toFixed(2)}<br>`;
+            let value = data.premiums[policy];
+            premiumText += `${policy}: ₹${value ? value.toFixed(2) : "N/A"}<br>`;
         }
+
         premiumsDiv.innerHTML = premiumText;
     } else {
         policiesDiv.innerHTML = "";
