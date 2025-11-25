@@ -8,7 +8,7 @@ document.getElementById('predictForm').addEventListener('submit', async function
     let health = document.getElementById('health').value;
     let smoke = document.getElementById('smoke').value;
 
-    let response = await fetch('https://YOUR_RENDER_URL/predict', {  
+    let response = await fetch('https://life-insurance-prediction.onrender.com', {  
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ age, gender, income, health, smoke })
